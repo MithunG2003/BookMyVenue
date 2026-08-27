@@ -1,0 +1,504 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="venue-detail-page">
+
+    <!-- =====================================================
+         VENUE DETAILS
+    ====================================================== -->
+
+    <div class="venue-detail-container">
+
+        <div class="venue-main-details">
+
+            <!-- VENUE IMAGE -->
+
+            <div class="venue-main-image">
+
+                {% if venue.image %}
+
+                    <img
+                        src="{{ venue.image.url }}"
+                        alt="{{ venue.name }}">
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- VENUE INFORMATION -->
+
+            <div class="venue-information">
+
+                <h2 class="venue-detail-title">
+
+                    {{ venue.name }}
+
+                </h2>
+
+
+                <div class="venue-info-item">
+
+                    <i class="bi bi-file-text-fill"></i>
+
+                    <div>
+
+                        <strong>Description</strong>
+
+                        <p>
+                            {{ venue.description }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="venue-info-item">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    <div>
+
+                        <strong>Location</strong>
+
+                        <p>
+                            {{ venue.location }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="venue-info-item">
+
+                    <i class="bi bi-people-fill"></i>
+
+                    <div>
+
+                        <strong>Capacity</strong>
+
+                        <p>
+                            {{ venue.capacity }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="venue-info-item">
+
+                    <i class="bi bi-currency-rupee"></i>
+
+                    <div>
+
+                        <strong>Venue Price</strong>
+
+                        <p class="venue-price">
+
+                            ₹ {{ venue.price }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             ADDITIONAL SERVICES
+        ====================================================== -->
+
+        <div class="services-section">
+
+
+            <!-- HEADING -->
+
+            <div class="services-heading">
+
+                <h2>
+                    Select Additional Services
+                </h2>
+
+                <p>
+                    Enhance your event with our additional services
+                </p>
+
+                <div class="services-title-line"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ADD TO CART FORM
+            ================================================== -->
+
+            <form
+                method="POST"
+                action="{% url 'add_to_cart' venue.id %}">
+
+                {% csrf_token %}
+
+
+                <!-- =================================================
+                     SERVICE GRID
+                ================================================== -->
+
+                <div class="services-grid">
+
+
+                    {% for service in services %}
+
+
+                    <!-- =================================================
+                         SERVICE CARD
+                    ================================================== -->
+
+                    <div class="venue-service-card">
+
+
+                        <!-- SERVICE IMAGE -->
+
+                        <div class="venue-service-image-wrapper">
+
+                            {% if service.image %}
+
+                                <img
+                                    src="{{ service.image.url }}"
+                                    class="venue-service-image"
+                                    alt="{{ service.name }}">
+
+                            {% else %}
+
+                                <div class="venue-service-no-image">
+
+                                    <i class="bi bi-image"></i>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- SERVICE CONTENT -->
+
+                        <div class="venue-service-body">
+
+
+                            <!-- SERVICE NAME -->
+
+                            <h5 class="venue-service-name">
+
+                                {{ service.name }}
+
+                            </h5>
+
+
+                            <!-- SERVICE DESCRIPTION -->
+
+                            {% if service.description %}
+
+                                <p class="venue-service-description">
+
+                                    {{ service.description }}
+
+                                </p>
+
+                            {% else %}
+
+                                <p class="venue-service-description">
+
+                                    Professional service for
+                                    your special event.
+
+                                </p>
+
+                            {% endif %}
+
+
+                            <!-- PRICE -->
+
+                            <div class="venue-service-price">
+
+                                ₹ {{ service.price }}
+
+                            </div>
+
+
+                            <!-- SELECT -->
+
+                            <label
+                                class="venue-service-select"
+                                for="service{{ service.id }}">
+
+                                <input
+                                    type="checkbox"
+                                    name="services"
+                                    value="{{ service.id }}"
+                                    id="service{{ service.id }}">
+
+                                <i class="bi bi-cart-plus"></i>
+
+                                <span>
+                                    Add to Cart
+                                </span>
+
+                            </label>
+
+
+                        </div>
+
+                    </div>
+
+
+                    {% empty %}
+
+
+                    <!-- NO SERVICES -->
+
+                    <div class="no-services">
+
+                        <i class="bi bi-info-circle-fill"></i>
+
+                        <span>
+
+                            No additional services are available
+                            for this venue.
+
+                        </span>
+
+                    </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+                <!-- =================================================
+                     SERVICE CART BUTTONS
+                ================================================== -->
+
+                <div class="service-cart-section">
+
+
+                    <div class="service-cart-heading">
+
+                        <i class="bi bi-cart3"></i>
+
+                        <span>
+                            Service Cart
+                        </span>
+
+                    </div>
+
+
+                    <p>
+
+                        Select the services you need and add them
+                        to your cart.
+
+                    </p>
+
+
+                    <div class="service-cart-buttons">
+
+
+                        <!-- ADD TO CART -->
+
+                        <button
+                            type="submit"
+                            class="service-cart-btn add-cart-btn">
+
+                            <i class="bi bi-cart-plus"></i>
+
+                            Add Selected Services
+
+                        </button>
+
+
+                        <!-- VIEW CART -->
+
+                        <a
+                            href="{% url 'cart' %}"
+                            class="service-cart-btn view-cart-btn">
+
+                            <i class="bi bi-cart3"></i>
+
+                            View Cart
+
+                        </a>
+
+
+                    </div>
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+        <!-- =====================================================
+             BOOKING BUTTONS
+        ====================================================== -->
+
+        <div class="venue-bottom-actions">
+
+
+            <!-- BOOK NOW -->
+
+            <a
+                href="{% url 'book_venue' venue.id %}"
+                class="venue-bottom-btn book-now-btn">
+
+                <i class="bi bi-calendar-check"></i>
+
+                Book Now
+
+            </a>
+
+
+            <!-- BACK TO VENUES -->
+
+            <a
+                href="{% url 'venue_list' %}"
+                class="venue-bottom-btn back-venue-btn">
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back to Venues
+
+            </a>
+
+
+            <!-- GIVE REVIEW -->
+{% if has_booking %}
+
+    <a href="{% url 'add_review' venue.id %}"
+       class="service-cart-btn view-cart-btn">
+        <i class="bi bi-star-fill"></i>
+         Give Review
+
+    </a>
+
+{% endif %}
+
+
+        </div>
+
+
+        <!-- =====================================================
+             CUSTOMER REVIEWS
+        ====================================================== -->
+
+        <div class="container mt-5 mb-5">
+
+            <h3 class="mb-4">
+
+                ⭐ Customer Reviews
+
+            </h3>
+
+
+            {% if reviews %}
+
+
+                {% for review in reviews %}
+
+
+                    <div class="card shadow-sm border-0 mb-3">
+
+                        <div class="card-body">
+
+
+                            <!-- CUSTOMER NAME -->
+
+                            <h5 class="fw-bold">
+
+                                {{ review.user.username }}
+
+                            </h5>
+
+
+                            <!-- RATING -->
+
+                            <div class="mb-2">
+
+                                {% for i in "12345" %}
+
+                                    {% if forloop.counter <= review.rating %}
+
+                                        ⭐
+
+                                    {% else %}
+
+                                        ☆
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <!-- REVIEW COMMENT -->
+
+                            <p class="mb-2">
+
+                                {{ review.comment }}
+
+                            </p>
+
+
+                            <!-- REVIEW DATE -->
+
+                            <small class="text-muted">
+
+                                {{ review.created_at|date:"d M Y" }}
+
+                            </small>
+
+
+                        </div>
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <!-- NO REVIEWS -->
+
+                <div class="alert alert-light">
+
+                    No reviews yet. Be the first to review this venue!
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

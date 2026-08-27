@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+
+    <h2 class="text-center mb-5">
+        🛒 My Cart
+    </h2>
+
+
+    {% if venue %}
+
+    <!-- Venue -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-3">
+
+                    {% if venue.image %}
+
+                    <img src="{{ venue.image.url }}"
+                         class="img-fluid rounded"
+                         style="height:150px;
+                                width:100%;
+                                object-fit:cover;">
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="col-md-9">
+
+                    <h3>
+                        {{ venue.name }}
+                    </h3>
+
+                    <p>
+                        <strong>Location:</strong>
+                        {{ venue.location }}
+                    </p>
+
+                    <p>
+                        <strong>Capacity:</strong>
+                        {{ venue.capacity }}
+                    </p>
+
+                    <h5 class="text-success">
+                        Venue Price: ₹ {{ venue.price }}
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Selected Services -->
+
+    <h4 class="mb-3">
+        Selected Services
+    </h4>
+
+
+    {% if services %}
+
+    <div class="row">
+
+        {% for service in services %}
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow h-100">
+
+                {% if service.image %}
+
+                <img src="{{ service.image.url }}"
+                     class="card-img-top"
+                     style="height:200px;
+                            object-fit:cover;">
+
+                {% endif %}
+
+
+                <div class="card-body">
+
+                    <h5>
+                        {{ service.name }}
+                    </h5>
+
+                    <p>
+                        {{ service.description }}
+                    </p>
+
+                    <h5 class="text-success">
+                        ₹ {{ service.price }}
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-info">
+
+        No additional services selected.
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- Total -->
+
+    <div class="card shadow mt-4">
+
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between">
+
+                <h5>
+                    Venue Price
+                </h5>
+
+                <h5>
+                    ₹ {{ venue.price }}
+                </h5>
+
+            </div>
+
+
+            {% for service in services %}
+
+            <div class="d-flex justify-content-between">
+
+                <p>
+                    {{ service.name }}
+                </p>
+
+                <p>
+                    ₹ {{ service.price }}
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+
+            <hr>
+
+
+            <div class="d-flex justify-content-between">
+
+                <h4>
+                    Total
+                </h4>
+
+                <h4 class="text-success">
+                    ₹ {{ total }}
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Continue -->
+
+    <div class="text-center mt-4">
+
+        <a href="{% url 'venue_detail' venue.id %}"
+           class="btn btn-secondary btn-lg">
+
+            ← Continue Selecting
+
+        </a>
+
+        <a href="{% url 'book_venue' venue.id %}"
+           class="btn btn-success btn-lg ms-2">
+
+            Proceed to Booking →
+
+        </a>
+
+    </div>
+
+
+    {% else %}
+
+    <!-- Empty Cart -->
+
+    <div class="text-center">
+
+        <div class="alert alert-warning">
+
+            Your cart is empty.
+
+        </div>
+
+        <a href="{% url 'venue_list' %}"
+           class="btn btn-primary">
+
+            Browse Venues
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

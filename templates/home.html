@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+body{
+    font-family:'Poppins',sans-serif;
+    background:
+        radial-gradient(circle at top left,#ffd6e8 0%,transparent 35%),
+        radial-gradient(circle at bottom right,#9fd4ff 0%,transparent 35%),
+        linear-gradient(135deg,#eef5ff,#f8efff,#edf8ff);
+    background-attachment:fixed;
+}
+
+/* Hero */
+.hero{
+    position: relative;
+    height: 720px;
+    background:
+        linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
+        url("{% static 'images/d1.JPG' %}") center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+}
+
+/* Curved bottom */
+.hero::after{
+    content: "";
+    position: absolute;
+    left: -5%;
+    bottom: -90px;
+    width: 110%;
+    height: 180px;
+    background: linear-gradient(135deg,#eef5ff,#f8efff,#edf8ff);
+    border-radius: 50% 50% 0 0;
+}
+
+.hero > div{
+    position: relative;
+    z-index: 2;
+}
+
+.hero h1{
+    font-size:48px;
+    font-weight:700;
+}
+
+.hero p{
+    font-size:18px;
+}
+
+/* Search Card */
+.search-card{
+    margin-top:-60px;
+    background:rgba(255,255,255,.28);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:24px;
+    padding:30px;
+    box-shadow:0 15px 40px rgba(76,81,191,.18);
+    position: relative;
+     z-index: 5;
+}
+
+.search-card .form-control,
+.search-card .form-select{
+    height:50px;
+    border:none;
+    border-radius:12px;
+}
+
+.search-card h3{
+    font-weight:700;
+}
+
+/* Glass Sections */
+.glass-section{
+    margin-top:45px;
+    margin-bottom: 45px;
+    background:rgba(255,255,255,.22);
+    backdrop-filter:blur(18px);
+    border-radius:28px;
+    padding:30px;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+
+/* Slider */
+.slider{
+    overflow:hidden;
+    position:relative;
+    width:100%;
+}
+
+.slide-track{
+    display:flex;
+    width:calc(220px * 16);
+    animation:scroll 35s linear infinite;
+}
+
+.slide{
+    width:220px;
+    margin-right:18px;
+}
+
+.slide img{
+    width:100%;
+    height:140px;
+    border-radius:16px;
+    object-fit:cover;
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+}
+
+@keyframes scroll{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(calc(-220px * 8));}
+}
+
+/* Event Cards */
+.event-card{
+    background:rgba(255,255,255,.75);
+    backdrop-filter:blur(10px);
+    border-radius:16px;
+    transition:.3s;
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+
+.event-card:hover{
+    transform:translateY(-6px);
+    background:#4f46e5;
+    color:#fff;
+}
+
+.event-card .card-body{
+    font-weight:600;
+    text-align:center;
+}
+
+/* Title */
+.section-title{
+    font-weight:700;
+    color:#18243c;
+}
+</style>
+
+<!-- Hero Banner -->
+<section class="hero">
+    <div>
+        <h1>Book Your Dream Event Venue</h1>
+        <p>Wedding | Reception | Birthday | Corporate Events</p>
+    </div>
+</section>
+
+<!-- Floating Search -->
+<div class="container">
+    <div class="search-card">
+
+        <h3 class="text-center mb-4">
+            Find Your Perfect Venue
+        </h3>
+
+        <form action="{% url 'venue_list' %}" method="GET">
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <select class="form-select" name="location" required>
+                        <option value="">📍 Select Location</option>
+                        {% for location in locations %}
+                        <option value="{{ location.id }}">
+                            {{ location.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <select class="form-select" name="event_type" required>
+                        <option value="">🎉 Select Event</option>
+                        <option>Wedding</option>
+                        <option>Reception</option>
+                        <option>Birthday</option>
+                        <option>Baby Shower</option>
+                        <option>Engagement</option>
+                        <option>Anniversary</option>
+                        <option>Corporate Event</option>
+                        <option>Get Together</option>
+                        <option>Product Launch</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <input type="date"
+                           class="form-control"
+                           id="booking_date"
+                           name="booking_date"
+                           required>
+                </div>
+
+                <div class="col-md-3 d-grid">
+                    <button class="btn btn-primary rounded-3">
+                        🔍 Search Venues
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- Categories -->
+<div class="container glass-section">
+
+    <h2 class="text-center section-title mb-4">
+        Popular Event Categories
+    </h2>
+
+    <div class="slider mb-5">
+        <div class="slide-track">
+
+            <div class="slide"><img src="{% static 'images/a.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/b.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/both.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/c.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/e.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/food.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/baby.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/place.jpg' %}"></div>
+
+            <!-- Duplicate -->
+            <div class="slide"><img src="{% static 'images/a.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/b.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/both.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/c.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/e.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/food.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/baby.jpg' %}"></div>
+            <div class="slide"><img src="{% static 'images/place.jpg' %}"></div>
+
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="event-card card border-0">
+                <div class="card-body">🎂 Birthday</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="event-card card border-0">
+                <div class="card-body">💍 Wedding</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="event-card card border-0">
+                <div class="card-body">🎉 Reception</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="event-card card border-0">
+                <div class="card-body">👶 Baby Shower</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="event-card card border-0">
+                <div class="card-body">🏢 Corporate Event</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="event-card card border-0">
+                <div class="card-body">🚀 Product Launch</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="event-card card border-0">
+                <div class="card-body">💖 Anniversary</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="event-card card border-0">
+                <div class="card-body">👥 Get Together</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const today = new Date().toISOString().split('T')[0];
+document.getElementById("booking_date").setAttribute("min", today);
+</script>
+
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow p-4">
+
+                <h2 class="text-center mb-4">
+                    Book Venue
+                </h2>
+
+                <h4 class="text-center text-primary mb-4">
+                    {{ venue.name }}
+                </h4>
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <!-- Event Type -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Event Type
+                        </label>
+
+                        <select name="event_type"
+                                class="form-select"
+                                required>
+
+                            <option value="">Select Event</option>
+
+                            <option value="Wedding">Wedding</option>
+                            <option value="Reception">Reception</option>
+                            <option value="Birthday">Birthday</option>
+                            <option value="Baby Shower">Baby Shower</option>
+                            <option value="Baby Shower">Engagement</option>
+                            <option value="Corporate Event">Corporate Event</option>
+                            <option value="Product Launch">Product Launch</option>
+                            <option value="Anniversary">Anniversary</option>
+                            <option value="Get Together">Get Together</option>
+
+                        </select>
+                    </div>
+
+                    <!-- Event Date -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Event Date
+                        </label>
+
+                        <input type="date"
+                               name="event_date"
+                               class="form-control"
+                                id="event_date"
+                               required>
+                    </div>
+
+                    <!-- Time Slot -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Time Slot
+                        </label>
+
+                        <select name="time_slot"
+                                class="form-select"
+                                required>
+
+                            <option value="">Select Time Slot</option>
+
+                            <option value="Morning">Morning</option>
+                            <option value="Afternoon">Afternoon</option>
+                            <option value="Evening">Evening</option>
+                            <option value="Full Day">Full Day</option>
+
+                        </select>
+                    </div>
+
+                    <div class="d-grid">
+
+                        <button type="submit"
+                                class="btn btn-success btn-lg">
+                            Confirm Booking
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    <script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById("event_date").setAttribute("min", today);
+</script>
+
+{% endblock %}

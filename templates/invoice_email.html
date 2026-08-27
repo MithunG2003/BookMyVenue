@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Book My Venue - Final Bill</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background:#f4f4f4;
+            padding:20px;
+            color:#333;
+        }
+        .container{
+            max-width:650px;
+            margin:auto;
+            background:#fff;
+            border-radius:10px;
+            overflow:hidden;
+            box-shadow:0 3px 10px rgba(0,0,0,.15);
+        }
+        .header{
+            background:#0d6efd;
+            color:#fff;
+            text-align:center;
+            padding:20px;
+        }
+        .content{
+            padding:25px;
+        }
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:15px;
+        }
+        th,td{
+            border:1px solid #ddd;
+            padding:10px;
+            text-align:left;
+        }
+        th{
+            background:#f8f9fa;
+            width:38%;
+        }
+        .paid{
+            color:#198754;
+            font-weight:bold;
+        }
+        .amount{
+            font-size:22px;
+            color:#198754;
+            font-weight:bold;
+        }
+        .footer{
+            background:#f8f9fa;
+            text-align:center;
+            padding:15px;
+            font-size:13px;
+            color:#666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h2>Book My Venue</h2>
+        <p>Payment Receipt / Final Bill</p>
+    </div>
+
+    <div class="content">
+
+        <p>Hello <strong>{{ booking.user.username }}</strong>,</p>
+
+        <p>
+            Thank you for your payment. Your venue booking has been confirmed.
+            Please find your final bill below.
+        </p>
+
+        <table>
+            <tr>
+                <th>Booking ID</th>
+                <td>#{{ booking.id }}</td>
+            </tr>
+
+            <tr>
+                <th>Customer</th>
+                <td>{{ booking.user.username }}</td>
+            </tr>
+
+            <tr>
+                <th>Venue</th>
+                <td>{{ booking.venue.name }}</td>
+            </tr>
+
+            <tr>
+                <th>Location</th>
+                <td>{{ booking.venue.location }}</td>
+            </tr>
+
+            <tr>
+                <th>Event Type</th>
+                <td>{{ booking.event_type }}</td>
+            </tr>
+
+            <tr>
+                <th>Event Date</th>
+                <td>{{ booking.event_date }}</td>
+            </tr>
+
+            <tr>
+                <th>Time Slot</th>
+                <td>{{ booking.time_slot }}</td>
+            </tr>
+
+            <tr>
+                <th>Payment ID</th>
+                <td>{{ payment.razorpay_payment_id }}</td>
+            </tr>
+
+            <tr>
+                <th>Order ID</th>
+                <td>{{ payment.razorpay_order_id }}</td>
+            </tr>
+
+            <tr>
+                <th>Status</th>
+                <td class="paid">{{ payment.status }}</td>
+            </tr>
+
+            <tr>
+                <th>Total Amount Paid</th>
+                <td class="amount">₹{{ payment.amount }}</td>
+            </tr>
+        </table>
+
+        <p style="margin-top:20px;">
+            We look forward to making your event memorable.
+        </p>
+
+        <p>
+            Regards,<br>
+            <strong>Book My Venue Team</strong>
+        </p>
+
+    </div>
+
+    <div class="footer">
+        This is an automatically generated invoice. Please keep it for your records.
+    </div>
+
+</div>
+
+</body>
+</html>

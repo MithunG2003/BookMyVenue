@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2 class="mb-4">
+Available Venues
+</h2>
+
+<div class="row">
+
+{% for venue in venues %}
+
+<div class="col-md-4">
+
+<div class="card mb-4">
+
+<img src="{{ venue.image.url }}"
+class="card-img-top">
+
+<div class="card-body">
+
+<h5>
+{{ venue.name }}
+</h5>
+
+<p>
+{{ venue.location }}
+</p>
+
+<p>
+Capacity: {{ venue.capacity }}
+</p>
+
+<p>
+₹ {{ venue.price }}
+</p>
+
+<a href="{% url 'venue_detail' venue.id %}"
+class="btn btn-primary">
+View Details
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

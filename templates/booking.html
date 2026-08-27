@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2>
+Book Venue
+</h2>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<label>Event Type</label>
+
+<select name="event_type"
+class="form-control">
+
+<option>Wedding</option>
+<option>Reception</option>
+<option>Birthday</option>
+<option>Baby Shower</option>
+    <option>Corporate Event</option>
+    <option>Engagement</option>
+<option>Product Launch</option>
+<option>Anniversary</option>
+<option>Get Together</option>
+
+</select>
+
+<br>
+
+<label>Date</label>
+
+<input type="date"
+name="date"
+class="form-control">
+
+<br>
+
+<label>Start Time</label>
+
+<input type="time"
+name="start_time"
+class="form-control">
+
+<br>
+
+<label>Guests</label>
+
+<input type="number"
+name="guests"
+class="form-control">
+
+<br>
+
+<button class="btn btn-primary">
+Confirm Booking
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

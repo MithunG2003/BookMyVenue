@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-4">
+        Booking Requests
+    </h2>
+
+    {% if bookings %}
+
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>Customer</th>
+
+                <th>Venue</th>
+
+                <th>Event</th>
+
+                <th>Date</th>
+
+                <th>Time Slot</th>
+
+                <th>Status</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for booking in bookings %}
+
+            <tr>
+
+                <td>{{ booking.user.username }}</td>
+
+                <td>{{ booking.venue.name }}</td>
+
+                <td>{{ booking.event_type }}</td>
+
+                <td>{{ booking.event_date }}</td>
+
+                <td>{{ booking.time_slot }}</td>
+
+                <td>
+
+                    <span class="badge bg-warning text-dark">
+                        {{ booking.status }}
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <a href="{% url 'approve_booking' booking.id %}"
+                       class="btn btn-success btn-sm">
+                        Approve
+                    </a>
+
+                    <a href="{% url 'reject_booking' booking.id %}"
+                       class="btn btn-danger btn-sm">
+                        Reject
+                    </a>
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+        <div class="alert alert-info text-center">
+            No pending booking requests.
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

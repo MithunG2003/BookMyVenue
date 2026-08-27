@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">Venue Bookings</h2>
+
+    {% if bookings %}
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+
+        <tr>
+
+            <th>Customer</th>
+            <th>Venue</th>
+            <th>Occasion</th>
+            <th>Date</th>
+            <th>Time</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for booking in bookings %}
+
+        <tr>
+
+            <td>{{ booking.user.username }}</td>
+            <td>{{ booking.venue.name }}</td>
+            <td>{{ booking.event_type }}</td>
+            <td>{{ booking.event_date }}</td>
+            <td>{{ booking.time_slot }}</td>
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <div class="alert alert-info">
+
+        No bookings available.
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

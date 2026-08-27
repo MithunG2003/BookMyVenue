@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">My Venues</h2>
+
+    {% if venues %}
+
+        <div class="row">
+
+            {% for venue in venues %}
+
+            <div class="col-md-4 mb-4">
+
+                <div class="card shadow">
+
+                    <img src="{{ venue.image.url }}" class="card-img-top" height="220">
+
+                    <div class="card-body">
+
+                        <h5>{{ venue.name }}</h5>
+
+                        <p>{{ venue.location }}</p>
+
+                        <p>₹ {{ venue.price }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-info">
+            You haven't added any venues yet.
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

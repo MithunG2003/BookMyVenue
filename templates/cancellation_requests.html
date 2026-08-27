@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-4">
+        Cancellation Requests
+    </h2>
+
+    {% if bookings %}
+
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>Customer</th>
+                <th>Venue</th>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Time Slot</th>
+                <th>Status</th>
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for booking in bookings %}
+
+            <tr>
+
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.venue.name }}</td>
+                <td>{{ booking.event_type }}</td>
+                <td>{{ booking.event_date }}</td>
+                <td>{{ booking.time_slot }}</td>
+
+                <td>
+
+                    {% if booking.status == "Cancellation Requested" %}
+
+                        <span class="badge bg-warning text-dark">
+                            {{ booking.status }}
+                        </span>
+
+                    {% elif booking.status == "Cancelled" %}
+
+                        <span class="badge bg-success">
+                            Cancelled
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {% if booking.status == "Cancellation Requested" %}
+
+                        <a href="{% url 'approve_cancellation' booking.id %}"
+                           class="btn btn-success btn-sm">
+                            Approve
+                        </a>
+
+                        <a href="{% url 'reject_cancellation' booking.id %}"
+                           class="btn btn-danger btn-sm">
+                            Reject
+                        </a>
+
+                    {% elif booking.status == "Cancelled" %}
+
+                        <button class="btn btn-success btn-sm" disabled>
+                            Cancellation Approved
+                        </button>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <div class="alert alert-info text-center">
+
+        No cancellation requests found.
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

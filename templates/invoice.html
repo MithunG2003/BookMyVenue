@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-primary text-white text-center">
+
+            <h2>Book My Venue</h2>
+
+            <h4>Payment Invoice</h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th>Customer</th>
+                    <td>{{ booking.user.username }}</td>
+                </tr>
+
+                <tr>
+                    <th>Venue</th>
+                    <td>{{ booking.venue.name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Location</th>
+                    <td>{{ booking.venue.location }}</td>
+                </tr>
+
+                <tr>
+                    <th>Event</th>
+                    <td>{{ booking.event_type }}</td>
+                </tr>
+
+                <tr>
+                    <th>Date</th>
+                    <td>{{ booking.event_date }}</td>
+                </tr>
+
+                <tr>
+                    <th>Time Slot</th>
+                    <td>{{ booking.time_slot }}</td>
+                </tr>
+
+                <tr>
+                    <th>Amount Paid</th>
+                    <td>₹{{ payment.amount }}</td>
+                </tr>
+
+                <tr>
+                    <th>Payment ID</th>
+                    <td>{{ payment.razorpay_payment_id }}</td>
+                </tr>
+
+                <tr>
+                    <th>Order ID</th>
+                    <td>{{ payment.razorpay_order_id }}</td>
+                </tr>
+
+                <tr>
+                    <th>Status</th>
+                    <td>
+
+                        <span class="badge bg-success">
+
+                            {{ payment.status }}
+
+                        </span>
+
+                    </td>
+                </tr>
+
+            </table>
+
+            <div class="text-center">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="window.print()">
+
+                    Print Invoice
+
+                </button>
+
+                <a href="{% url 'my_bookings' %}"
+                   class="btn btn-success">
+
+                    My Bookings
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

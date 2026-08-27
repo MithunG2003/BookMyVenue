@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <div class="card-header bg-success text-white text-center py-4">
+                    <h3 class="mb-0">Review {{ venue.name }}</h3>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+                                Rating
+                            </label>
+
+                            <select name="rating"
+                                    class="form-select"
+                                    required>
+
+                                <option value="">
+                                    Select Rating
+                                </option>
+
+                                <option value="5">
+                                    ⭐⭐⭐⭐⭐ - Excellent
+                                </option>
+
+                                <option value="4">
+                                    ⭐⭐⭐⭐ - Very Good
+                                </option>
+
+                                <option value="3">
+                                    ⭐⭐⭐ - Good
+                                </option>
+
+                                <option value="2">
+                                    ⭐⭐ - Average
+                                </option>
+
+                                <option value="1">
+                                    ⭐ - Poor
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-bold">
+                                Your Review
+                            </label>
+
+                            <textarea
+                                name="comment"
+                                class="form-control"
+                                rows="5"
+                                placeholder="Write your experience..."
+                                required></textarea>
+
+                        </div>
+
+
+                        <div class="text-center">
+
+                            <button
+                                type="submit"
+                                class="btn btn-success px-5 py-2">
+
+                                Submit Review
+
+                            </button>
+
+                            <a
+                                href="{% url 'venue_detail' venue.id %}"
+                                class="btn btn-secondary px-4 py-2">
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

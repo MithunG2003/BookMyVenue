@@ -1,0 +1,1337 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Book My Venue
+    </title>
+
+
+    <!-- =====================================================
+         BOOTSTRAP 5
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!-- =====================================================
+         CUSTOM CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}">
+
+
+    <!-- =====================================================
+         CUSTOM BASE CSS
+    ====================================================== -->
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            font-family: 'Poppins', sans-serif;
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+            background: #f8f9fa;
+
+            color: #212529;
+        }
+
+
+        main {
+            flex: 1;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ====================================================== */
+
+        .navbar {
+            background: #212529 !important;
+
+            padding: 10px 0;
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.20);
+
+            position: relative;
+
+            z-index: 1000;
+        }
+
+
+        /* =====================================================
+           LOGO
+        ====================================================== */
+
+        .navbar-brand {
+            text-decoration: none;
+
+            padding: 0;
+        }
+
+
+        .logo-img {
+            width: 70px;
+
+            height: 70px;
+
+            object-fit: cover;
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease;
+
+            border: 2px solid rgba(255,255,255,0.25);
+        }
+
+
+        .logo-img:hover {
+
+            transform:
+                rotate(5deg)
+                scale(1.06);
+
+            box-shadow:
+                0 6px 18px rgba(255,255,255,0.20);
+        }
+
+
+        /* =====================================================
+           WEBSITE TITLE
+        ====================================================== */
+
+        .venue-title {
+
+            font-size: 26px;
+
+            font-weight: 700;
+
+            color: #ffffff;
+
+            letter-spacing: 0.3px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           NAVBAR MENU
+        ====================================================== */
+
+        .navbar-nav {
+
+            gap: 7px;
+
+            align-items: center;
+        }
+
+
+        .navbar .nav-link {
+
+            color: #ffffff !important;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            padding: 10px 15px !important;
+
+            border-radius: 8px;
+
+            transition:
+                all 0.25s ease;
+
+            white-space: nowrap;
+        }
+
+
+        .navbar .nav-link:hover {
+
+            background:
+                rgba(255,255,255,0.10);
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        .navbar .nav-link.active {
+
+            background:
+                linear-gradient(
+                    45deg,
+                    #0d6efd,
+                    #6610f2
+                );
+
+            box-shadow:
+                0 5px 15px rgba(
+                    13,
+                    110,
+                    253,
+                    0.30
+                );
+        }
+
+
+        .navbar .nav-link i {
+
+            font-size: 15px;
+
+            vertical-align: middle;
+        }
+
+
+        /* =====================================================
+           WELCOME USER
+        ====================================================== */
+
+        .welcome-user {
+
+            color: #ffc107 !important;
+
+            cursor: default;
+
+            font-weight: 600 !important;
+
+            background: transparent !important;
+        }
+
+
+        .welcome-user:hover {
+
+            transform: none !important;
+
+            background: transparent !important;
+
+            box-shadow: none !important;
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ====================================================== */
+
+        .logout-link {
+
+            color: #ff6b6b !important;
+        }
+
+
+        .logout-link:hover {
+
+            color: #ffffff !important;
+
+            background:
+                #dc3545 !important;
+
+            box-shadow:
+                0 5px 15px rgba(
+                    220,
+                    53,
+                    69,
+                    0.30
+                );
+        }
+
+
+        /* =====================================================
+           MOBILE NAVBAR
+        ====================================================== */
+
+        .navbar-toggler {
+
+            border:
+                1px solid rgba(
+                    255,
+                    255,
+                    255,
+                    0.35
+                );
+
+            padding: 7px 10px;
+
+            border-radius: 8px;
+        }
+
+
+        .navbar-toggler:focus {
+
+            box-shadow:
+                0 0 0 0.2rem
+                rgba(
+                    13,
+                    110,
+                    253,
+                    0.25
+                );
+        }
+
+
+        /* =====================================================
+           DJANGO MESSAGES
+        ====================================================== */
+
+        .messages-container {
+
+            position: relative;
+
+            z-index: 900;
+        }
+
+
+        .messages-container .alert {
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 4px 12px rgba(
+                    0,
+                    0,
+                    0,
+                    0.06
+                );
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .site-footer {
+
+            background:
+                #212529;
+
+            color: #ffffff;
+
+            margin-top: auto;
+
+            padding:
+                45px 20px 25px;
+
+            line-height: 1.7;
+        }
+
+
+        .footer-title {
+
+            font-size: 20px;
+
+            font-weight: 600;
+
+            margin-bottom: 15px;
+        }
+
+
+        .footer-description {
+
+            max-width: 1000px;
+
+            margin:
+                0 auto 25px;
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.80
+                );
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           FOOTER CONTACT
+        ====================================================== */
+
+        .footer-contact {
+
+            margin-top: 20px;
+        }
+
+
+        .footer-contact-title {
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            margin-bottom: 15px;
+
+            color: #ffffff;
+        }
+
+
+        .footer-contact-item {
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.85
+                );
+        }
+
+
+        .footer-contact-item i {
+
+            width: 22px;
+
+            color: #20c997;
+
+            margin-right: 5px;
+        }
+
+
+        /* =====================================================
+           FOOTER BUTTONS
+        ====================================================== */
+
+        .footer-actions {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-top: 25px;
+        }
+
+
+        .footer-btn {
+
+            min-width: 130px;
+
+            border-radius: 8px;
+
+            padding:
+                9px 18px;
+
+            font-size: 14px;
+
+            transition:
+                all 0.25s ease;
+        }
+
+
+        .footer-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 5px 15px
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.12
+                );
+        }
+
+
+        /* =====================================================
+           LANGUAGE SELECTOR
+        ====================================================== */
+
+        .language-section {
+
+            margin-top: 25px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .language-label {
+
+            font-size: 14px;
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.85
+                );
+        }
+
+
+        #language {
+
+            min-width: 150px;
+
+            border-radius: 8px;
+
+            border: none;
+
+            padding:
+                8px 12px;
+
+            font-size: 14px;
+
+            cursor: pointer;
+        }
+
+
+        #language:focus {
+
+            box-shadow:
+                0 0 0 0.2rem
+                rgba(
+                    13,
+                    110,
+                    253,
+                    0.30
+                );
+        }
+
+
+        /* =====================================================
+           FOOTER COPYRIGHT
+        ====================================================== */
+
+        .footer-divider {
+
+            border: 0;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.12
+                );
+
+            margin:
+                30px auto 18px;
+
+            max-width: 1000px;
+        }
+
+
+        .copyright {
+
+            font-size: 13px;
+
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.60
+                );
+
+            margin: 0;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE DESIGN
+        ====================================================== */
+
+        @media (max-width: 991px) {
+
+            .navbar-nav {
+
+                align-items: stretch;
+
+                gap: 3px;
+
+                margin-top: 15px;
+            }
+
+
+            .navbar .nav-link {
+
+                border-radius: 8px;
+
+                padding:
+                    11px 15px !important;
+            }
+
+
+            .welcome-user {
+
+                display: block;
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .venue-title {
+
+                font-size: 21px;
+            }
+
+
+            .logo-img {
+
+                width: 58px;
+
+                height: 58px;
+            }
+
+
+            .site-footer {
+
+                padding:
+                    35px 15px 20px;
+            }
+
+
+            .footer-description {
+
+                font-size: 13px;
+            }
+
+
+            .footer-contact-item {
+
+                font-size: 13px;
+            }
+
+
+            .footer-actions {
+
+                flex-direction: column;
+            }
+
+
+            .footer-btn {
+
+                width: 100%;
+
+                max-width: 220px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+
+    <div class="container">
+
+
+        <!-- =================================================
+             LOGO + WEBSITE NAME
+        ================================================== -->
+
+        <a
+            class="navbar-brand d-flex align-items-center me-auto"
+            href="{% url 'home' %}">
+
+            <img
+                src="{% static 'images/logo1.png' %}"
+                class="rounded-circle me-2 logo-img"
+                alt="Book My Venue Logo">
+
+
+            <span class="venue-title">
+
+                Book My Venue
+
+            </span>
+
+        </a>
+
+
+        <!-- =================================================
+             MOBILE MENU BUTTON
+        ================================================== -->
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#nav"
+            aria-controls="nav"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <!-- =================================================
+             NAVIGATION
+        ================================================== -->
+
+        <div
+            class="collapse navbar-collapse"
+            id="nav">
+
+
+            <ul
+                class="navbar-nav ms-auto">
+
+
+                <!-- =================================================
+                     HOME
+                ================================================== -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link
+                        {% if request.resolver_match.url_name == 'home' %}
+                            active
+                        {% endif %}"
+                        href="{% url 'home' %}">
+
+                        <i class="bi bi-house-door-fill me-1"></i>
+
+                        Home
+
+                    </a>
+
+                </li>
+
+
+                <!-- =================================================
+                     VENUES
+                ================================================== -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link
+                        {% if request.resolver_match.url_name == 'venue_list' %}
+                            active
+                        {% endif %}"
+                        href="{% url 'venue_list' %}">
+
+                        <i class="bi bi-buildings-fill me-1"></i>
+
+                        Venues
+
+                    </a>
+
+                </li>
+
+
+                <!-- =================================================
+                     LOGGED IN USER
+                ================================================== -->
+
+                {% if user.is_authenticated %}
+
+
+                    <!-- =================================================
+                         OWNER
+                    ================================================== -->
+
+                    {% if user.profile.role == "owner" %}
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link
+                                {% if request.resolver_match.url_name == 'owner_dashboard' %}
+                                    active
+                                {% endif %}"
+                                href="{% url 'owner_dashboard' %}">
+
+                                <i class="bi bi-speedometer2 me-1"></i>
+
+                                Owner Dashboard
+
+                            </a>
+
+                        </li>
+
+
+                    <!-- =================================================
+                         CUSTOMER
+                    ================================================== -->
+
+                    {% elif user.profile.role == "customer" %}
+
+
+                        <!-- BOOK VENUE -->
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link
+                                {% if request.resolver_match.url_name == 'venue_list' %}
+                                    active
+                                {% endif %}"
+                                href="{% url 'venue_list' %}">
+
+                                <i class="bi bi-calendar-event-fill me-1"></i>
+
+                                Book Venue
+
+                            </a>
+
+                        </li>
+
+
+                        <!-- =================================================
+                             MY BOOKINGS
+                        ================================================== -->
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link my-bookings-link
+                                {% if request.resolver_match.url_name == 'my_bookings' %}
+                                    active
+                                {% endif %}"
+                                href="{% url 'my_bookings' %}">
+
+                                <i class="bi bi-journal-check me-1"></i>
+
+                                My Bookings
+
+                            </a>
+
+                        </li>
+
+
+                    {% endif %}
+
+
+                    <!-- =================================================
+                         WELCOME USER
+                    ================================================== -->
+
+                    <li class="nav-item">
+
+                        <span
+                            class="nav-link welcome-user">
+
+                            <i class="bi bi-person-circle me-1"></i>
+
+                            Welcome, {{ user.username }}
+
+                        </span>
+
+                    </li>
+
+
+                    <!-- =================================================
+                         LOGOUT
+                    ================================================== -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link logout-link"
+                            href="{% url 'logout' %}">
+
+                            <i class="bi bi-box-arrow-right me-1"></i>
+
+                            Logout
+
+                        </a>
+
+                    </li>
+                <!-- Notifications -->
+                <a href="{% url 'notifications' %}" class="btn btn-light position-relative">
+    <i class="bi bi-bell-fill"></i>
+
+    {% if unread_count > 0 %}
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{ unread_count }}
+    </span>
+    {% endif %}
+</a>
+
+                <!-- =================================================
+                     NOT LOGGED IN
+                ================================================== -->
+
+                {% else %}
+
+
+                    <!-- LOGIN -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link
+                            {% if request.resolver_match.url_name == 'login' %}
+                                active
+                            {% endif %}"
+                            href="{% url 'login' %}">
+
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+
+                            Login
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- REGISTER -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link
+                            {% if request.resolver_match.url_name == 'register' %}
+                                active
+                            {% endif %}"
+                            href="{% url 'register' %}">
+
+                            <i class="bi bi-person-plus-fill me-1"></i>
+
+                            Register
+
+                        </a>
+
+                    </li>
+
+
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     DJANGO MESSAGES
+====================================================== -->
+
+{% if messages %}
+
+<div class="container mt-3 messages-container">
+
+    {% for message in messages %}
+
+        <div
+            class="alert
+                   alert-{{ message.tags }}
+                   alert-dismissible
+                   fade
+                   show"
+            role="alert">
+
+            <i class="bi bi-info-circle-fill me-2"></i>
+
+            {{ message }}
+
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close">
+            </button>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+
+<!-- =====================================================
+     MAIN PAGE CONTENT
+====================================================== -->
+
+<main>
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="site-footer">
+
+    <div class="container text-center">
+
+
+        <!-- =================================================
+             FOOTER TITLE
+        ================================================== -->
+
+        <h5 class="footer-title">
+
+            <i class="bi bi-buildings-fill me-2"></i>
+
+            Book My Venue
+
+        </h5>
+
+
+        <!-- =================================================
+             DESCRIPTION
+        ================================================== -->
+
+        <p class="footer-description">
+
+            Book My Venue is a comprehensive online platform
+            designed to simplify venue reservations for
+            weddings, receptions, birthdays, baby showers,
+            corporate events, product launches, anniversaries
+            and many other special occasions.
+
+        </p>
+
+
+        <!-- =================================================
+             CONTACT
+        ================================================== -->
+
+        <div class="footer-contact">
+
+            <div class="footer-contact-title">
+
+                Reach Us
+
+            </div>
+
+
+            <div class="footer-contact-item">
+
+                <i class="bi bi-geo-alt-fill"></i>
+
+                35, Anugraha Building, 13th Cross,
+                Vidya Nagar, Bangalore - 562162,
+                Karnataka, India
+
+            </div>
+
+
+            <div class="footer-contact-item">
+
+                <i class="bi bi-envelope-fill"></i>
+
+                mithungmithung@gmail.com
+
+            </div>
+
+
+            <div class="footer-contact-item">
+
+                <i class="bi bi-telephone-fill"></i>
+
+                +91 9353703407
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER ACTION BUTTONS
+        ================================================== -->
+
+        <div class="footer-actions">
+
+
+            <!-- ABOUT -->
+
+            <a
+                href="{% url 'about' %}"
+                class="btn btn-outline-light footer-btn">
+
+                <i class="bi bi-info-circle me-1"></i>
+
+                About Us
+
+            </a>
+
+
+            <!-- REFUND POLICY -->
+
+            <a
+                href="{% url 'refund_policy' %}"
+                class="btn btn-outline-light footer-btn">
+
+                <i class="bi bi-arrow-counterclockwise me-1"></i>
+
+                Refund Policy
+
+            </a>
+
+
+        </div>
+
+
+        <!-- =================================================
+             LANGUAGE
+        ================================================== -->
+
+        <div class="language-section">
+
+
+            <label
+                for="language"
+                class="language-label">
+
+                <i class="bi bi-translate me-1"></i>
+
+                Select Language:
+
+            </label>
+
+
+            <select
+                id="language"
+                class="form-select w-auto">
+
+
+                <option value="en">
+                    English
+                </option>
+
+
+                <option value="kn">
+                    Kannada
+                </option>
+
+
+                <option value="hi">
+                    Hindi
+                </option>
+
+
+                <option value="ta">
+                    Tamil
+                </option>
+
+
+                <option value="te">
+                    Telugu
+                </option>
+
+
+            </select>
+
+        </div>
+
+
+        <!-- =================================================
+             DIVIDER
+        ================================================== -->
+
+        <hr class="footer-divider">
+
+
+        <!-- =================================================
+             COPYRIGHT
+        ================================================== -->
+
+        <p class="copyright">
+
+            © 2026 Book My Venue.
+            All Rights Reserved.
+
+        </p>
+
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     BOOTSTRAP JAVASCRIPT
+====================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- =====================================================
+     GOOGLE TRANSLATE CONTAINER
+====================================================== -->
+
+<div
+    id="google_translate_element"
+    style="display:none;">
+</div>
+
+
+<!-- =====================================================
+     GOOGLE TRANSLATE INITIALIZATION
+====================================================== -->
+
+<script>
+
+function googleTranslateElementInit() {
+
+    new google.translate.TranslateElement(
+
+        {
+            pageLanguage: 'en',
+
+            autoDisplay: false
+        },
+
+        'google_translate_element'
+
+    );
+
+}
+
+</script>
+
+
+<script
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+
+
+<!-- =====================================================
+     LANGUAGE SWITCHER
+====================================================== -->
+
+<script>
+
+document
+    .getElementById("language")
+    .addEventListener(
+        "change",
+        function () {
+
+
+            var language = this.value;
+
+
+            var interval =
+                setInterval(
+                    function () {
+
+
+                        var combo =
+                            document.querySelector(
+                                ".goog-te-combo"
+                            );
+
+
+                        if (combo) {
+
+
+                            combo.value =
+                                language;
+
+
+                            combo.dispatchEvent(
+                                new Event("change")
+                            );
+
+
+                            clearInterval(
+                                interval
+                            );
+
+                        }
+
+
+                    },
+                    500
+                );
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

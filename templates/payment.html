@@ -1,0 +1,462 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <!-- Header -->
+                <div class="card-header bg-success text-white text-center py-4">
+
+                    <h2>
+                        💳 Payment Details
+                    </h2>
+
+                    <p class="mb-0">
+                        Book My Venue
+                    </p>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <!-- Venue -->
+                    <h3 class="text-center">
+
+                        {{ booking.venue.name }}
+
+                    </h3>
+
+                    <p class="text-center text-muted">
+
+                        {{ booking.venue.location }}
+
+                    </p>
+
+
+                    <!-- Booking Details -->
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>
+                                Customer
+                            </th>
+
+                            <td>
+                                {{ booking.user.username }}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <th>
+                                Event
+                            </th>
+
+                            <td>
+                                {{ booking.event_type }}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+
+                            <td>
+                                {{ booking.event_date }}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <th>
+                                Time Slot
+                            </th>
+
+                            <td>
+                                {{ booking.time_slot }}
+                            </td>
+                        </tr>
+
+                    </table>
+
+
+                    <!-- Price Details -->
+                    <h5 class="mt-4 mb-3">
+
+                        💰 Price Details
+
+                    </h5>
+
+
+                    <table class="table table-bordered">
+
+                        <!-- Venue Price -->
+                        <tr>
+
+                            <td>
+                                Venue
+                            </td>
+
+                            <td class="text-end">
+
+                                ₹{{ booking.venue.price }}
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- Selected Services -->
+                        {% for service in booking.services.all %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ service.name }}
+
+                            </td>
+
+                            <td class="text-end">
+
+                                ₹{{ service.price }}
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="2"
+                                class="text-center text-muted">
+
+                                No additional services selected
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+
+                        <!-- Total -->
+                        <tr class="table-success">
+
+                            <th>
+
+                                Total Amount
+
+                            </th>
+
+                            <th class="text-end text-success">
+
+                                ₹{{ total_amount }}
+
+                            </th>
+
+                        </tr>
+
+                    </table>
+
+
+                    <!-- Payment Button -->
+                    <button
+                        type="button"
+                        id="pay-btn"
+                        class="btn btn-success w-100 btn-lg">
+
+                        💳 Pay ₹{{ total_amount }}
+
+                    </button>
+
+
+                    <!-- Back -->
+                    <a
+                        href="{% url 'my_bookings' %}"
+                        class="btn btn-outline-secondary w-100 mt-3">
+
+                        ← Back to My Bookings
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- Razorpay Checkout -->
+<!-- ===================================================== -->
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+<script>
+
+var options = {
+
+    /* Razorpay Test/Live Key */
+    key: "{{ razorpay_key }}",
+
+
+    /* Amount must be in paise */
+    amount: "{{ amount_paise }}",
+
+
+    currency: "INR",
+
+
+    name: "Book My Venue",
+
+
+    description: "Venue Booking Payment",
+
+
+    /* Razorpay Order ID */
+    order_id: "{{ payment_order_id }}",
+
+
+    /* ==========================================
+       PAYMENT SUCCESS
+       ========================================== */
+
+    handler: function (response) {
+
+        console.log("========== PAYMENT SUCCESS ==========");
+
+        console.log(
+            "Payment ID:",
+            response.razorpay_payment_id
+        );
+
+        console.log(
+            "Order ID:",
+            response.razorpay_order_id
+        );
+
+        console.log(
+            "Signature:",
+            response.razorpay_signature
+        );
+
+
+        /*
+         * Send Razorpay payment information
+         * to Django payment_success view.
+         */
+
+        var url =
+            "{% url 'payment_success' %}" +
+            "?razorpay_payment_id=" +
+            encodeURIComponent(
+                response.razorpay_payment_id
+            ) +
+            "&razorpay_order_id=" +
+            encodeURIComponent(
+                response.razorpay_order_id
+            ) +
+            "&razorpay_signature=" +
+            encodeURIComponent(
+                response.razorpay_signature
+            );
+
+
+        console.log(
+            "Redirecting to payment success..."
+        );
+
+
+        window.location.href = url;
+
+    },
+
+
+    /* ==========================================
+       CUSTOMER DETAILS
+       ========================================== */
+
+    prefill: {
+
+        name: "{{ booking.user.username }}",
+
+        email: "{{ booking.user.email }}"
+
+    },
+
+
+    /* ==========================================
+       THEME
+       ========================================== */
+
+    theme: {
+
+        color: "#198754"
+
+    },
+
+
+    /* ==========================================
+       CHECKOUT CLOSED
+       ========================================== */
+
+    modal: {
+
+        ondismiss: function () {
+
+            console.log(
+                "Razorpay payment window closed."
+            );
+
+        }
+
+    }
+
+};
+
+
+/* ==============================================
+   CREATE RAZORPAY OBJECT
+   ============================================== */
+
+var rzp = new Razorpay(options);
+
+
+/* ==============================================
+   PAYMENT FAILED
+   ============================================== */
+
+rzp.on(
+    'payment.failed',
+    function (response) {
+
+        console.log(
+            "========== RAZORPAY PAYMENT FAILED =========="
+        );
+
+
+        console.log(
+            "Complete Response:",
+            response
+        );
+
+
+        if (response.error) {
+
+            console.log(
+                "Code:",
+                response.error.code
+            );
+
+            console.log(
+                "Description:",
+                response.error.description
+            );
+
+            console.log(
+                "Source:",
+                response.error.source
+            );
+
+            console.log(
+                "Step:",
+                response.error.step
+            );
+
+            console.log(
+                "Reason:",
+                response.error.reason
+            );
+
+
+            if (response.error.metadata) {
+
+                console.log(
+                    "Order ID:",
+                    response.error.metadata.order_id
+                );
+
+                console.log(
+                    "Payment ID:",
+                    response.error.metadata.payment_id
+                );
+
+            }
+
+
+            alert(
+                "Payment failed\n\n" +
+
+                "Code: " +
+                (response.error.code || "N/A") +
+
+                "\nDescription: " +
+                (response.error.description || "N/A") +
+
+                "\nReason: " +
+                (response.error.reason || "N/A")
+            );
+
+        }
+
+    }
+);
+
+
+/* ==============================================
+   PAY BUTTON
+   ============================================== */
+
+document
+    .getElementById("pay-btn")
+    .onclick = function (e) {
+
+        e.preventDefault();
+
+
+        console.log(
+            "========== OPENING RAZORPAY =========="
+        );
+
+
+        console.log(
+            "Order ID:",
+            "{{ payment_order_id }}"
+        );
+
+
+        console.log(
+            "Amount in paise:",
+            "{{ amount_paise }}"
+        );
+
+
+        console.log(
+            "Amount in rupees:",
+            "{{ total_amount }}"
+        );
+
+
+        rzp.open();
+
+    };
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5 mb-5">
+
+    <h2 class="mb-4 text-center">
+        My Bookings
+    </h2>
+
+
+    {% if bookings %}
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-striped align-middle">
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>Venue</th>
+
+                    <th>Location</th>
+
+                    <th>Event</th>
+
+                    <th>Date</th>
+
+                    <th>Time Slot</th>
+
+                    <th>Selected Services</th>
+
+                    <th>Total Amount</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for booking in bookings %}
+
+                <tr>
+
+                    <!-- Venue -->
+
+                    <td>
+                        {{ booking.venue.name }}
+                    </td>
+
+
+                    <!-- Location -->
+
+                    <td>
+                        {{ booking.venue.location }}
+                    </td>
+
+
+                    <!-- Event -->
+
+                    <td>
+                        {{ booking.event_type }}
+                    </td>
+
+
+                    <!-- Date -->
+
+                    <td>
+                        {{ booking.event_date }}
+                    </td>
+
+
+                    <!-- Time -->
+
+                    <td>
+                        {{ booking.time_slot }}
+                    </td>
+
+
+                    <!-- Services -->
+
+                    <td>
+
+                        {% if booking.services.all %}
+
+                            <ul class="list-unstyled mb-0">
+
+                                {% for service in booking.services.all %}
+
+                                    <li class="mb-1">
+
+                                        <span class="badge bg-info text-dark">
+
+                                            {{ service.name }}
+
+                                        </span>
+
+                                        <br>
+
+                                        <small>
+
+                                            ₹{{ service.price }}
+
+                                        </small>
+
+                                    </li>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                No additional services
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- Total Amount -->
+
+                    <td>
+
+                        <strong class="text-success">
+
+                            ₹{{ booking.total_amount }}
+
+                        </strong>
+
+                        <br>
+
+                        <small class="text-muted">
+
+                            Venue: ₹{{ booking.venue.price }}
+
+                        </small>
+
+                    </td>
+
+
+                    <!-- Status -->
+
+                    <td>
+
+                        {% if booking.status == "Pending" %}
+
+                            <span class="badge bg-warning text-dark">
+
+                                Waiting for Owner Approval
+
+                            </span>
+
+
+                        {% elif booking.status == "Approved" %}
+
+                            <span class="badge bg-primary">
+
+                                Approved
+
+                            </span>
+
+
+                        {% elif booking.status == "Booked" %}
+
+                            <span class="badge bg-success">
+
+                                Booking Confirmed
+
+                            </span>
+
+
+                        {% elif booking.status == "Rejected" %}
+
+                            <span class="badge bg-danger">
+
+                                Rejected
+
+                            </span>
+
+
+                        {% elif booking.status == "Cancelled" %}
+
+                            <span class="badge bg-dark">
+
+                                Cancelled
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- Actions -->
+
+                    <td>
+
+                        {% if booking.status == "Pending" %}
+
+                            <button
+                                class="btn btn-warning btn-sm mb-2"
+                                disabled>
+
+                                Waiting for Approval
+
+                            </button>
+
+                            <br>
+
+                            <a
+                                href="{% url 'cancel_booking' booking.id %}"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm(
+                                    'Are you sure you want to cancel this booking?'
+                                );">
+
+                                Cancel Booking
+
+                            </a>
+
+
+                        {% elif booking.status == "Approved" %}
+
+                            <a
+                                href="{% url 'payment' booking.id %}"
+                                class="btn btn-success btn-sm mb-2">
+
+                                Proceed to Payment
+
+                            </a>
+
+                            <br>
+
+                            <a
+                                href="{% url 'cancel_booking' booking.id %}"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm(
+                                    'Are you sure you want to cancel this booking?'
+                                );">
+
+                                Cancel Booking
+
+                            </a>
+
+
+                        {% elif booking.status == "Booked" %}
+
+                            <button
+                                class="btn btn-success btn-sm mb-2"
+                                disabled>
+
+                                Payment Completed
+
+                            </button>
+
+                            <br>
+
+                            <a
+                                href="{% url 'invoice' booking.id %}"
+                                class="btn btn-primary btn-sm mb-2">
+
+                                View Invoice
+
+                            </a>
+
+                            <br>
+
+                            <a
+                                href="{% url 'cancel_booking' booking.id %}"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm(
+                                    'Are you sure you want to cancel this booking?'
+                                );">
+
+                                Cancel Booking
+
+                            </a>
+
+
+                        {% elif booking.status == "Rejected" %}
+
+                            <button
+                                class="btn btn-danger btn-sm"
+                                disabled>
+
+                                Booking Rejected
+
+                            </button>
+
+
+                        {% elif booking.status == "Cancelled" %}
+
+                            <button
+                                class="btn btn-dark btn-sm"
+                                disabled>
+
+                                Booking Cancelled
+
+                            </button>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+        <div class="alert alert-info text-center">
+
+            You have not booked any venue yet.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

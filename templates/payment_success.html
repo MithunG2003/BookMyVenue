@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <!-- Header -->
+
+                <div class="card-header bg-success text-white text-center py-4">
+
+                    <h2>
+                        🎉 Payment Successful
+                    </h2>
+
+                    <p class="mb-0">
+                        Thank you for booking with Book My Venue
+                    </p>
+
+                </div>
+
+
+                <div class="card-body p-4">
+
+                    <!-- Success Icon -->
+
+                    <div class="text-center mb-4">
+
+                        <i class="bi bi-check-circle-fill text-success"
+                           style="font-size:70px;">
+                        </i>
+
+                        <h3 class="mt-3">
+                            Booking Confirmed
+                        </h3>
+
+                    </div>
+
+
+                    <!-- Booking Details -->
+
+                    <h4 class="mb-3">
+                        📋 Booking Details
+                    </h4>
+
+                    <table class="table table-bordered table-striped">
+
+                        <tbody>
+
+                            <tr>
+                                <th width="35%">
+                                    Booking ID
+                                </th>
+
+                                <td>
+                                    #{{ booking.id }}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    Venue
+                                </th>
+
+                                <td>
+                                    {{ booking.venue.name }}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    Customer
+                                </th>
+
+                                <td>
+                                    {{ booking.user.username }}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    Location
+                                </th>
+
+                                <td>
+                                    {{ booking.venue.location }}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    Event Type
+                                </th>
+
+                                <td>
+                                    {{ booking.event_type }}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    Event Date
+                                </th>
+
+                                <td>
+                                    {{ booking.event_date }}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <th>
+                                    Time Slot
+                                </th>
+
+                                <td>
+                                    {{ booking.time_slot }}
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+                    <!-- Price Details -->
+
+                    <h4 class="mt-4 mb-3">
+                        💰 Price Details
+                    </h4>
+
+                    <table class="table table-bordered">
+
+                        <!-- Venue Price -->
+
+                        <tr>
+
+                            <td>
+                                Venue
+                            </td>
+
+                            <td class="text-end">
+                                ₹{{ booking.venue.price }}
+                            </td>
+
+                        </tr>
+
+
+                        <!-- Selected Services -->
+
+                        {% for service in booking.services.all %}
+
+                        <tr>
+
+                            <td>
+                                {{ service.name }}
+                            </td>
+
+                            <td class="text-end">
+                                ₹{{ service.price }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+
+                        <!-- Total -->
+
+                        <tr class="table-success">
+
+                            <th>
+                                Total Amount Paid
+                            </th>
+
+                            <th class="text-end text-success">
+
+                                ₹{{ payment.amount }}
+
+                            </th>
+
+                        </tr>
+
+                    </table>
+
+
+                    <!-- Payment Information -->
+
+                    <h4 class="mt-4 mb-3">
+                        💳 Payment Information
+                    </h4>
+
+                    <table class="table table-bordered">
+
+                        <tbody>
+
+                            <tr>
+
+                                <th width="35%">
+                                    Payment ID
+                                </th>
+
+                                <td>
+                                    {{ payment.razorpay_payment_id }}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <th>
+                                    Order ID
+                                </th>
+
+                                <td>
+                                    {{ payment.razorpay_order_id }}
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <th>
+                                    Payment Status
+                                </th>
+
+                                <td>
+
+                                    <span class="badge bg-success fs-6">
+
+                                        {{ payment.status }}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <th>
+                                    Booking Status
+                                </th>
+
+                                <td>
+
+                                    <span class="badge bg-primary fs-6">
+
+                                        {{ booking.status }}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+                    <!-- Buttons -->
+
+                    <div class="d-grid gap-2 mt-4">
+
+                        <a href="{% url 'invoice' booking.id %}"
+                           class="btn btn-success btn-lg">
+
+                            📄 Download Invoice
+
+                        </a>
+
+
+                        <a href="{% url 'my_bookings' %}"
+                           class="btn btn-primary">
+
+                            📅 My Bookings
+
+                        </a>
+
+
+                        <a href="{% url 'home' %}"
+                           class="btn btn-outline-dark">
+
+                            🏠 Back to Home
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Footer -->
+
+                <div class="card-footer text-center text-muted">
+
+                    <small>
+
+                        Your payment has been received successfully.
+                        Thank you for choosing Book My Venue.
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
